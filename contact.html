@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – Young Desert</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <div class="logo">Young Desert</div>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="bio.html">Biography</a>
+      <a href="book.html">Book</a>
+      <a href="store.html">Merch</a>
+      <a href="contact.html">Contact</a>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+  🌙
+</button>
+<div class="lang-switch" role="group" aria-label="Language switch">
+  <button class="lang-btn" type="button" data-lang="es">ES</button>
+  <button class="lang-btn" type="button" data-lang="pt">PT</button>
+</div>
+
+    </nav>
+  </div>
+</header>
+
+<section class="contact-hero">
+  <div class="container">
+    <div class="pill">CONTACT • Community • Support</div>
+    <h1>Contact</h1>
+    <p class="subtitle">
+      Let’s connect — questions about the book, merch, or your faith journey.
+    </p>
+
+    <div class="contact-actions">
+      <a id="whatsAppTop" class="btn primary" href="#" target="_blank" rel="noopener">
+        Chat on WhatsApp
+      </a>
+      <a class="btn" href="#form">Send a Message</a>
+    </div>
+
+    <p class="mini-note">
+      “Ask and it will be given to you; seek and you will find.” — Matthew 7:7
+    </p>
+  </div>
+</section>
+
+<section class="contact-grid">
+  <div class="container">
+    <div class="cards">
+      <div class="info-card">
+        <div class="info-title">WhatsApp</div>
+        <div class="info-sub">Fastest way to reach me</div>
+        <a id="whatsAppCard" class="link" href="#" target="_blank" rel="noopener">Open WhatsApp</a>
+      </div>
+
+      <div class="info-card">
+        <div class="info-title">Email</div>
+        <div class="info-sub">For business / collaborations</div>
+        <a class="link" href="mailto:youngdesert01@gmail.com">youngdesert01@gmail.com</a>
+      </div>
+
+      <div class="info-card">
+        <div class="info-title">Location</div>
+        <div class="info-sub">Online / Worldwide</div>
+        <span class="tag">Faith • Purpose • Culture</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="form" class="contact-form">
+  <div class="container narrow">
+    <div class="form-wrap">
+      <h2>Send a Message</h2>
+      <p>
+        Write your message below. If you prefer, use WhatsApp for faster replies.
+      </p>
+
+      <form id="contactForm">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" type="text" placeholder="Your name" required />
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="field">
+          <label for="topic">Topic</label>
+          <select id="topic" required>
+            <option value="" disabled selected>Select a topic</option>
+            <option>Book (Young Desert)</option>
+            <option>Merch / Orders</option>
+            <option>Collaboration</option>
+            <option>Faith / Support</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" rows="6" placeholder="Write your message..." required></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn primary full" type="submit">Send Message</button>
+
+          <button class="btn full" type="button" id="sendWhatsAppBtn">
+            Send via WhatsApp Instead
+          </button>
+        </div>
+
+        <p class="small" id="formStatus"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="prayer">
+  <div class="container">
+    <div class="prayer-card">
+      <div>
+        <h3>Prayer Request (Optional)</h3>
+        <p>
+          If you’re going through a hard season and want prayer, you can send a
+          short request. You’re not alone.
+        </p>
+      </div>
+      <a id="whatsAppPrayer" class="btn" href="#" target="_blank" rel="noopener">
+        Send Prayer Request on WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2025 Young Desert • Built with purpose</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // ==========================
+  // WhatsApp Connect
+  // ==========================
+  // Replace with your WhatsApp number (digits only, include country code)
+  // Example USA: +1 (615) 123-4567 -> 16151234567
+  const YOUR_WHATSAPP_NUMBER = "16151234567";
+
+  function waLink(text) {
+    const encoded = encodeURIComponent(text);
+    return `https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encoded}`;
+  }
+
+  const topBtn = document.getElementById("whatsAppTop");
+  const cardBtn = document.getElementById("whatsAppCard");
+  const prayerBtn = document.getElementById("whatsAppPrayer");
+
+  topBtn.href = waLink("Hi Sergio! I visited the Young Desert website and I want to connect.");
+  cardBtn.href = waLink("Hi Sergio! I have a question about Young Desert.");
+  prayerBtn.href = waLink("Hi Sergio, I’d like to share a prayer request. (You can keep this private)");
+
+  // ==========================
+  // Contact Form (demo)
+  // ==========================
+  const form = document.getElementById("contactForm");
+  const statusEl = document.getElementById("formStatus");
+  const sendWhatsAppBtn = document.getElementById("sendWhatsAppBtn");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const topic = document.getElementById("topic").value;
+    const message = document.getElementById("message").value.trim();
+
+    // Demo success message
+    statusEl.textContent = "Message saved ✅ (Connect to Formspree/Web3Forms to receive emails).";
+    statusEl.className = "small ok";
+
+    // Optional: also open WhatsApp with the message
+    // window.open(waLink(`Name: ${name}\nEmail: ${email}\nTopic: ${topic}\nMessage: ${message}`), "_blank");
+
+    form.reset();
+  });
+
+  sendWhatsAppBtn.addEventListener("click", () => {
+    const name = document.getElementById("name").value.trim() || "Anonymous";
+    const email = document.getElementById("email").value.trim() || "N/A";
+    const topic = document.getElementById("topic").value || "General";
+    const message = document.getElementById("message").value.trim() || "(No message typed yet)";
+
+    const text = `Hi Sergio! Here is my message from the website:\n\nName: ${name}\nEmail: ${email}\nTopic: ${topic}\nMessage: ${message}`;
+    window.open(waLink(text), "_blank");
+  });
+</script>
+</body>
+</html>

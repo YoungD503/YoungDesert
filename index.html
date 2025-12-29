@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Young Desert – Faith, Purpose, Culture</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <div class="logo">Young Desert</div>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="bio.html">Biography</a>
+      <a href="book.html">Book</a>
+      <a href="store.html">Merch</a>
+      <a href="contact.html">Contact</a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+  🌙
+</button>
+<div class="lang-switch" role="group" aria-label="Language switch">
+  <button class="lang-btn" type="button" data-lang="es">ES</button>
+  <button class="lang-btn" type="button" data-lang="pt">PT</button>
+</div>
+
+
+    </nav>
+  </div>
+</header>
+
+
+
+<!-- HERO -->
+<section class="home-hero">
+  <div class="container hero-grid">
+    <div class="hero-left">
+      <div class="pill">FAITH • DISCIPLINE • PURPOSE</div>
+
+      <h1>Young Desert</h1>
+      <p class="subtitle">
+        Five years alone. One faith. A new culture.
+      </p>
+
+      <p class="text">
+        A true story of identity in Christ, growth through solitude,
+        and building a new life far from home — to help young people
+        find the truth through Jesus Christ.
+      </p>
+
+      <div class="buttons">
+        <a href="book.html" class="btn primary">Get the Book</a>
+        <a href="bio.html" class="btn">Read My Story</a>
+        <a href="store.html" class="btn">Shop Merch</a>
+      </div>
+
+      <p class="mini-note">
+        “I will make a way in the wilderness and rivers in the desert.” — Isaiah 43:19
+      </p>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-card-top">
+          <div class="hero-tag">Featured</div>
+          <div class="hero-title">The 4 Foundations</div>
+          <div class="hero-sub">A good life in Christ</div>
+        </div>
+
+        <div class="hero-points">
+          <div class="point">
+            <span class="dot"></span>
+            <div>
+              <strong>Identity</strong>
+              <p>Know who you are in Christ.</p>
+            </div>
+          </div>
+
+          <div class="point">
+            <span class="dot"></span>
+            <div>
+              <strong>Truth</strong>
+              <p>Build your mind on God’s Word.</p>
+            </div>
+          </div>
+
+          <div class="point">
+            <span class="dot"></span>
+            <div>
+              <strong>Discipline</strong>
+              <p>Obedience shapes character.</p>
+            </div>
+          </div>
+
+          <div class="point">
+            <span class="dot"></span>
+            <div>
+              <strong>Purpose</strong>
+              <p>Your story can serve others.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card-bottom">
+          <a class="link-cta" href="book.html">Explore the book →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK SECTIONS -->
+<section class="home-sections">
+  <div class="container">
+    <div class="sec-grid">
+      <a class="sec-card" href="bio.html">
+        <div class="sec-title">Biography</div>
+        <div class="sec-sub">The journey, the lessons, the mission.</div>
+      </a>
+
+      <a class="sec-card" href="book.html">
+        <div class="sec-title">Book</div>
+        <div class="sec-sub">Young Desert — story + 4 foundations.</div>
+      </a>
+
+      <a class="sec-card" href="store.html">
+        <div class="sec-title">Merch</div>
+        <div class="sec-sub">Minimal faith pieces with purpose.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MEDIA: YOUTUBE + SPOTIFY -->
+<section class="media">
+  <div class="container">
+    <div class="media-head">
+      <h2>Media</h2>
+      <p>
+        Watch the latest video, listen to the podcast, and stay connected.
+      </p>
+    </div>
+
+    <div class="media-grid">
+      <!-- YouTube -->
+      <div class="media-card">
+        <div class="media-top">
+          <div class="media-label">Latest YouTube Video</div>
+          <a class="media-link" href="#" id="youtubeOpen" target="_blank" rel="noopener">Open on YouTube</a>
+        </div>
+
+        <div class="embed">
+          <!-- Replace VIDEO_ID below with your latest video ID -->
+          <iframe
+            id="youtubeEmbed"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/VIDEO_ID"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <p class="media-note">
+          Tip: update the video ID anytime to keep this showing your newest upload.
+        </p>
+      </div>
+
+      <!-- Spotify -->
+      <div class="media-card">
+        <div class="media-top">
+          <div class="media-label">Podcast on Spotify</div>
+          <a class="media-link" href="#" id="spotifyOpen" target="_blank" rel="noopener">Open on Spotify</a>
+        </div>
+
+        <div class="embed">
+          <!-- Replace SPOTIFY_EMBED_URL below with your Spotify embed URL -->
+          <iframe
+            id="spotifyEmbed"
+            style="border-radius:16px"
+            src="SPOTIFY_EMBED_URL"
+            width="100%"
+            height="352"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+
+        <p class="media-note">
+          Tip: Spotify gives you the embed code — just paste the embed link here.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="home-newsletter" id="newsletter">
+  <div class="container">
+    <div class="nl-card">
+      <div>
+        <div class="nl-title">Join the community</div>
+        <p class="nl-sub">
+          Get the first chapter + a simple “Faith & Discipline” guide.
+        </p>
+      </div>
+
+      <form class="nl-form" onsubmit="return fakeNewsletter(event)">
+        <input type="email" id="nlEmail" placeholder="Your email" required />
+        <button class="btn primary" type="submit">Subscribe</button>
+      </form>
+
+      <p class="tiny">No spam. Only purpose.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2025 Young Desert • Built with purpose</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // ====== SET THESE TWO VALUES ======
+  const LATEST_YOUTUBE_VIDEO_ID = "VIDEO_ID"; // e.g. "dQw4w9WgXcQ"
+  const SPOTIFY_EMBED_URL = "SPOTIFY_EMBED_URL"; // e.g. "https://open.spotify.com/embed/show/xxxxx"
+
+  // Update embeds & open links
+  const ytEmbed = document.getElementById("youtubeEmbed");
+  const ytOpen = document.getElementById("youtubeOpen");
+  ytEmbed.src = `https://www.youtube.com/embed/${LATEST_YOUTUBE_VIDEO_ID}`;
+  ytOpen.href = `https://www.youtube.com/watch?v=${LATEST_YOUTUBE_VIDEO_ID}`;
+
+  const spEmbed = document.getElementById("spotifyEmbed");
+  const spOpen = document.getElementById("spotifyOpen");
+  spEmbed.src = SPOTIFY_EMBED_URL;
+  spOpen.href = SPOTIFY_EMBED_URL.replace("/embed", "");
+
+  // Demo newsletter handler
+  function fakeNewsletter(e) {
+    e.preventDefault();
+    const email = document.getElementById("nlEmail").value.trim();
+    alert("Subscribed ✅\nEmail: " + email + "\n(Connect to Web3Forms/Formspree later)");
+    e.target.reset();
+    return false;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merch – Young Desert</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="container nav">
+    <div class="logo">Young Desert</div>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="bio.html">Biography</a>
+      <a href="book.html">Book</a>
+      <a href="store.html">Merch</a>
+      <a href="contact.html">Contact</a>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+  🌙
+</button>
+<div class="lang-switch" role="group" aria-label="Language switch">
+  <button class="lang-btn" type="button" data-lang="es">ES</button>
+  <button class="lang-btn" type="button" data-lang="pt">PT</button>
+</div>
+
+    </nav>
+  </div>
+</header>
+
+<section class="store-hero">
+  <div class="container">
+    <div class="pill">MERCH • Minimal • Purpose</div>
+    <h1>Young Desert Merch</h1>
+    <p class="subtitle">
+      Clean pieces for young people walking in faith, discipline, and purpose.
+    </p>
+
+    <div class="store-actions">
+      <div class="filters" id="filters">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="tshirt">T-Shirts</button>
+        <button class="chip" data-filter="sweater">Sweaters</button>
+        <button class="chip" data-filter="tie">Ties</button>
+        <button class="chip" data-filter="wallet">Men Wallet</button>
+        <button class="chip" data-filter="cap">Caps</button>
+      </div>
+
+      <div class="store-right">
+        <input class="search" id="search" type="text" placeholder="Search merch..." />
+        <button class="cart-btn" id="openCartBtn" aria-label="Open cart">
+          Cart <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="store-grid">
+  <div class="container">
+    <div class="grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- Cart Drawer -->
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-head">
+    <div>
+      <div class="cart-title">Your Cart</div>
+      <div class="cart-sub" id="cartSub">0 items</div>
+    </div>
+    <button class="icon-btn" id="closeCartBtn" aria-label="Close cart">✕</button>
+  </div>
+
+  <div class="cart-body" id="cartItems"></div>
+
+  <div class="cart-foot">
+    <div class="cart-total">
+      <span>Total</span>
+      <strong id="cartTotal">$0.00</strong>
+    </div>
+
+    <button class="btn primary full" id="checkoutBtn">Checkout</button>
+    <button class="btn full" id="clearCartBtn">Clear Cart</button>
+
+    <p class="small">
+      Checkout can be connected to Stripe Payment Links later.
+    </p>
+  </div>
+</aside>
+
+<footer class="footer">
+  <p>© 2025 Young Desert • Built with purpose</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // ---------------------------
+  // PRODUCTS (Edit any time)
+  // ---------------------------
+  const PRODUCTS = [
+    { id: "ts1", name: "Faith Over Fear T-Shirt", price: 28, cat: "tshirt", badge: "Best Seller" },
+    { id: "ts2", name: "Young Desert Minimal Tee", price: 26, cat: "tshirt" },
+    { id: "ts3", name: "Truth Sets Free Tee", price: 28, cat: "tshirt" },
+
+    { id: "sw1", name: "Discipline Hoodie", price: 55, cat: "sweater", badge: "New" },
+    { id: "sw2", name: "Desert Season Sweater", price: 49, cat: "sweater" },
+
+    { id: "ti1", name: "Classic Black Tie", price: 22, cat: "tie" },
+    { id: "ti2", name: "Minimal Pattern Tie", price: 24, cat: "tie" },
+
+    { id: "wa1", name: "Men Wallet – Minimal Leather", price: 39, cat: "wallet", badge: "Premium" },
+
+    { id: "cp1", name: "Purpose Cap", price: 25, cat: "cap" },
+    { id: "cp2", name: "Young Desert Cap", price: 25, cat: "cap" },
+  ];
+
+  // ---------------------------
+  // STATE
+  // ---------------------------
+  const grid = document.getElementById("productGrid");
+  const search = document.getElementById("search");
+  const filters = document.getElementById("filters");
+  const cartCount = document.getElementById("cartCount");
+
+  const cartOverlay = document.getElementById("cartOverlay");
+  const cartDrawer = document.getElementById("cartDrawer");
+  const openCartBtn = document.getElementById("openCartBtn");
+  const closeCartBtn = document.getElementById("closeCartBtn");
+
+  const cartItemsEl = document.getElementById("cartItems");
+  const cartTotalEl = document.getElementById("cartTotal");
+  const cartSubEl = document.getElementById("cartSub");
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  const clearCartBtn = document.getElementById("clearCartBtn");
+
+  let activeFilter = "all";
+  let cart = JSON.parse(localStorage.getItem("yd_cart") || "[]"); // [{id, qty}]
+
+  // ---------------------------
+  // HELPERS
+  // ---------------------------
+  const money = (n) => `$${Number(n).toFixed(2)}`;
+
+  function getProduct(id) {
+    return PRODUCTS.find(p => p.id === id);
+  }
+
+  function cartQty() {
+    return cart.reduce((sum, item) => sum + item.qty, 0);
+  }
+
+  function cartTotal() {
+    return cart.reduce((sum, item) => {
+      const p = getProduct(item.id);
+      return sum + (p ? p.price * item.qty : 0);
+    }, 0);
+  }
+
+  function saveCart() {
+    localStorage.setItem("yd_cart", JSON.stringify(cart));
+  }
+
+  function setCartCount() {
+    cartCount.textContent = cartQty();
+    cartSubEl.textContent = `${cartQty()} item${cartQty() === 1 ? "" : "s"}`;
+    cartTotalEl.textContent = money(cartTotal());
+  }
+
+  function addToCart(id) {
+    const existing = cart.find(x => x.id === id);
+    if (existing) existing.qty += 1;
+    else cart.push({ id, qty: 1 });
+    saveCart();
+    renderCart();
+    setCartCount();
+  }
+
+  function updateQty(id, delta) {
+    const item = cart.find(x => x.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
+    saveCart();
+    renderCart();
+    setCartCount();
+  }
+
+  function clearCart() {
+    cart = [];
+    saveCart();
+    renderCart();
+    setCartCount();
+  }
+
+  // ---------------------------
+  // RENDER PRODUCTS
+  // ---------------------------
+  function productCard(p) {
+    return `
+      <article class="product" data-cat="${p.cat}" data-name="${p.name.toLowerCase()}">
+        <div class="product-top">
+          <div class="ph">
+            <div class="ph-tag">${p.cat.toUpperCase()}</div>
+          </div>
+          ${p.badge ? `<div class="pbadge">${p.badge}</div>` : ""}
+        </div>
+
+        <div class="product-body">
+          <h3>${p.name}</h3>
+          <div class="price-row">
+            <div class="price">${money(p.price)}</div>
+            <div class="hint">Minimal • Purpose</div>
+          </div>
+
+          <button class="btn primary full add-btn" data-id="${p.id}">
+            Add to Cart
+          </button>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderProducts() {
+    const q = search.value.trim().toLowerCase();
+
+    const list = PRODUCTS.filter(p => {
+      const matchFilter = activeFilter === "all" ? true : p.cat === activeFilter;
+      const matchSearch = !q ? true : p.name.toLowerCase().includes(q);
+      return matchFilter && matchSearch;
+    });
+
+    grid.innerHTML = list.map(productCard).join("") || `
+      <div class="empty">
+        <div class="empty-title">No results</div>
+        <div class="empty-sub">Try another category or search term.</div>
+      </div>
+    `;
+
+    grid.querySelectorAll(".add-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        addToCart(btn.dataset.id);
+        openCart(); // feels good UX
+      });
+    });
+  }
+
+  // ---------------------------
+  // RENDER CART
+  // ---------------------------
+  function renderCart() {
+    if (cart.length === 0) {
+      cartItemsEl.innerHTML = `
+        <div class="cart-empty">
+          <div class="cart-empty-title">Your cart is empty</div>
+          <div class="cart-empty-sub">Add something that reminds you of purpose.</div>
+        </div>
+      `;
+      return;
+    }
+
+    cartItemsEl.innerHTML = cart.map(item => {
+      const p = getProduct(item.id);
+      if (!p) return "";
+      return `
+        <div class="cart-item">
+          <div class="ci-ph">
+            <div class="ci-tag">${p.cat.toUpperCase()}</div>
+          </div>
+
+          <div class="ci-main">
+            <div class="ci-name">${p.name}</div>
+            <div class="ci-price">${money(p.price)}</div>
+
+            <div class="qty">
+              <button class="qty-btn" data-id="${p.id}" data-d="-1">−</button>
+              <span class="qty-num">${item.qty}</span>
+              <button class="qty-btn" data-id="${p.id}" data-d="1">+</button>
+            </div>
+          </div>
+
+          <div class="ci-subtotal">${money(p.price * item.qty)}</div>
+        </div>
+      `;
+    }).join("");
+
+    cartItemsEl.querySelectorAll(".qty-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        const d = Number(btn.dataset.d);
+        updateQty(id, d);
+      });
+    });
+  }
+
+  // ---------------------------
+  // CART DRAWER UX
+  // ---------------------------
+  function openCart() {
+    cartOverlay.classList.add("show");
+    cartDrawer.classList.add("show");
+    cartDrawer.setAttribute("aria-hidden", "false");
+  }
+
+  function closeCart() {
+    cartOverlay.classList.remove("show");
+    cartDrawer.classList.remove("show");
+    cartDrawer.setAttribute("aria-hidden", "true");
+  }
+
+  openCartBtn.addEventListener("click", openCart);
+  closeCartBtn.addEventListener("click", closeCart);
+  cartOverlay.addEventListener("click", closeCart);
+
+  checkoutBtn.addEventListener("click", () => {
+    alert("Checkout connect later ✅\nUse Stripe Payment Links or Stripe Checkout.");
+  });
+
+  clearCartBtn.addEventListener("click", clearCart);
+
+  // ---------------------------
+  // FILTERS + SEARCH
+  // ---------------------------
+  filters.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      filters.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      activeFilter = chip.dataset.filter;
+      renderProducts();
+    });
+  });
+
+  search.addEventListener("input", renderProducts);
+
+  // ---------------------------
+  // INIT
+  // ---------------------------
+  renderProducts();
+  renderCart();
+  setCartCount();
+</script>
+</body>
+</html>
