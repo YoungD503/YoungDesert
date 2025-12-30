@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YoungDesert Finance System</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+    <!-- SUBSCRIBER MODAL -->
+<div class="modalOverlay" id="subModalOverlay" aria-hidden="true">
+  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="subModalTitle">
+    <div class="modalTop">
+      <div>
+        <h2 class="modalTitle" id="subModalTitle">Join YoungDesert Subscribers</h2>
+        <p class="modalDesc">Get updates, templates, and new finance features first.</p>
+      </div>
+      <button class="iconBtn" id="subModalClose" aria-label="Close modal">✕</button>
+    </div>
+
+    <div class="modalBody">
+      <div class="modalPerks">
+        <div class="perk">✅ Early access to updates</div>
+        <div class="perk">✅ Weekly money tips</div>
+        <div class="perk">✅ Free templates drops</div>
+      </div>
+
+      <form class="modalForm" id="subModalForm">
+        <label class="label">Email</label>
+        <input class="input" id="subEmail" type="email" placeholder="you@email.com" required />
+        <button class="btn" type="submit">Subscribe</button>
+
+        <label class="checkRow">
+          <input type="checkbox" id="subDontShow" />
+          <span class="muted">Don’t show this again</span>
+        </label>
+
+        <p class="muted small" id="subMsg" style="margin:0;"></p>
+      </form>
+
+      <div class="modalFooter">
+        <button class="btn ghost" id="subModalSkip">Skip</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <header class="header">
+    <div class="brand">
+      <div class="logo">YD</div>
+      <div>
+        <h1>YoungDesert Finance</h1>
+        <p class="muted">All-in-One system • Offline • Saved in your browser</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" id="exportBtn">Export JSON</button>
+      <label class="btn ghost file">
+        Import JSON
+        <input type="file" id="importFile" accept="application/json" hidden />
+      </label>
+      <button class="btn danger" id="resetBtn">Reset</button>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="dashboard">Dashboard</button>
+    <button class="tab" data-tab="income">Income</button>
+    <button class="tab" data-tab="expenses">Expenses</button>
+    <button class="tab" data-tab="assets">Assets</button>
+    <button class="tab" data-tab="debts">Debts</button>
+    <button class="tab" data-tab="taxes">Taxes</button>
+  </nav>
+
+  <main class="container">
+    <!-- DASHBOARD -->
+    <section class="panel active" id="dashboard">
+      <div class="grid kpis">
+        <div class="card">
+          <div class="label">Total Income (Monthly)</div>
+          <div class="value" id="kpiIncome">$0</div>
+        </div>
+        <div class="card">
+          <div class="label">Total Expenses (Monthly)</div>
+          <div class="value" id="kpiExpenses">$0</div>
+        </div>
+        <div class="card">
+          <div class="label">Expense % of Income</div>
+          <div class="value" id="kpiExpIncome">0%</div>
+        </div>
+        <div class="card">
+          <div class="label">Total Assets</div>
+          <div class="value" id="kpiAssets">$0</div>
+        </div>
+        <div class="card">
+          <div class="label">Expense % of Assets</div>
+          <div class="value" id="kpiExpAssets">0%</div>
+        </div>
+        <div class="card">
+          <div class="label">Total Debts</div>
+          <div class="value" id="kpiDebts">$0</div>
+        </div>
+        <div class="card wide">
+          <div class="label">Net Worth</div>
+          <div class="value big" id="kpiNetWorth">$0</div>
+          <p class="muted small">Net Worth = Assets − Debts</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <h2 class="h2">Monthly Summary</h2>
+          <span class="pill" id="monthPill"></span>
+        </div>
+        <div class="summary">
+          <div><span class="muted">Earned:</span> <b id="sumEarned">$0</b></div>
+          <div><span class="muted">Spent:</span> <b id="sumSpent">$0</b></div>
+          <div><span class="muted">Remaining:</span> <b id="sumRemaining">$0</b></div>
+        </div>
+      </div>
+
+      <div class="grid charts">
+  <div class="card">
+    <div class="row">
+      <h2 class="h2">Income vs Expenses</h2>
+      <span class="muted small">Selected month</span>
+    </div>
+    <canvas id="chartIncomeVsExpenses" height="140"></canvas>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <h2 class="h2">Expenses by Category</h2>
+      <span class="muted small">Needs / Wants / Investments</span>
+    </div>
+    <canvas id="chartExpensesCategory" height="140"></canvas>
+  </div>
+
+  <div class="card wide">
+    <div class="row">
+      <h2 class="h2">Net Worth Trend</h2>
+      <span class="muted small">Monthly snapshots</span>
+    </div>
+    <canvas id="chartNetWorthTrend" height="120"></canvas>
+    <p class="muted small">Tip: it auto-saves a snapshot each time you switch months.</p>
+  </div>
+</div>
+
+      
+    </section>
+
+    <!-- INCOME -->
+    <section class="panel" id="income">
+      <div class="card">
+        <h2 class="h2">Income</h2>
+        <form class="form" id="incomeForm">
+          <input type="date" id="incomeDate" required />
+          <input type="text" id="incomeSource" placeholder="Source (Job, Side hustle...)" required />
+          <input type="number" id="incomeAmount" placeholder="Amount" step="0.01" required />
+          <button class="btn" type="submit">Add Income</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="row">
+          <h3 class="h3">Entries</h3>
+          <span class="muted">Tip: click delete to remove</span>
+        </div>
+        <div class="tableWrap">
+          <table class="table" id="incomeTable">
+            <thead><tr><th>Date</th><th>Source</th><th class="right">Amount</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    
+    <!-- EXPENSES -->
+    <section class="panel" id="expenses">
+      <div class="card">
+        <h2 class="h2">Expenses</h2>
+        <form class="form" id="expenseForm">
+          <input type="date" id="expenseDate" required />
+          <select id="expenseCategory" required>
+            <option value="" disabled selected>Category</option>
+            <option>Needs</option>
+            <option>Wants</option>
+            <option>Investments</option>
+          </select>
+          <input type="text" id="expenseDesc" placeholder="Description (Rent, Groceries...)" required />
+          <input type="number" id="expenseAmount" placeholder="Amount" step="0.01" required />
+          <button class="btn" type="submit">Add Expense</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="row">
+          <h3 class="h3">Entries</h3>
+          <span class="muted">Needs/Wants/Investments are tracked</span>
+        </div>
+        <div class="tableWrap">
+          <table class="table" id="expenseTable">
+            <thead><tr><th>Date</th><th>Category</th><th>Description</th><th class="right">Amount</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASSETS -->
+    <section class="panel" id="assets">
+      <div class="card">
+        <h2 class="h2">Assets</h2>
+        <form class="form" id="assetForm">
+          <input type="text" id="assetName" placeholder="Asset (Cash, Savings, Investments...)" required />
+          <input type="number" id="assetValue" placeholder="Value" step="0.01" required />
+          <button class="btn" type="submit">Add Asset</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="tableWrap">
+          <table class="table" id="assetTable">
+            <thead><tr><th>Asset</th><th class="right">Value</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEBTS -->
+    <section class="panel" id="debts">
+      <div class="card">
+        <h2 class="h2">Debts</h2>
+        <form class="form" id="debtForm">
+          <input type="text" id="debtName" placeholder="Debt (Credit Card, Loan...)" required />
+          <input type="number" id="debtAPR" placeholder="APR % (optional)" step="0.01" />
+          <input type="number" id="debtMin" placeholder="Min Payment (optional)" step="0.01" />
+          <input type="number" id="debtBalance" placeholder="Balance" step="0.01" required />
+          <button class="btn" type="submit">Add Debt</button>
+        </form>
+      </div>
+      <div class="card">
+        <div class="tableWrap">
+          <table class="table" id="debtTable">
+            <thead><tr><th>Debt</th><th class="right">APR</th><th class="right">Min</th><th class="right">Balance</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAXES (simple selector + estimates for now) -->
+    <section class="panel" id="taxes">
+      <div class="card">
+        <div class="row">
+          <h2 class="h2">Taxes (Planning Estimates)</h2>
+          <span class="pill">TN • FL • CA</span>
+        </div>
+
+        <div class="grid two">
+          <div>
+            <label class="label">Annual Gross Income</label>
+            <input class="input" id="annualIncome" type="number" step="0.01" placeholder="Auto from monthly income" />
+            <p class="muted small">Tip: you can override it here if you want.</p>
+          </div>
+
+          <div>
+            <label class="label">State</label>
+            <select class="input" id="stateSelect">
+              <option value="TN">Tennessee (0% state income tax)</option>
+              <option value="FL">Florida (0% state income tax)</option>
+              <option value="CA">California (estimated avg)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid three">
+          <div class="card soft">
+            <div class="label">Federal (est.)</div>
+            <div class="value" id="fedTax">$0</div>
+          </div>
+          <div class="card soft">
+            <div class="label">State (est.)</div>
+            <div class="value" id="stateTax">$0</div>
+          </div>
+          <div class="card soft">
+            <div class="label">Net After Tax</div>
+            <div class="value" id="netAfterTax">$0</div>
+          </div>
+        </div>
+
+        <p class="muted small">
+          This is a planning view. If you want, we can upgrade to exact federal brackets + CA progressive brackets next.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
